@@ -1,0 +1,24 @@
+import requests
+from bs4 import BeautifulSoup
+from time import sleep
+get_html = requests.get('https://gpd-shop.ru/catalog/laptop')
+html = BeautifulSoup(get_html.text, 'html.parser')
+Catalog = html.find('div', {'class':'list-box'})
+prods = Catalog.findAll('ul',{'class':'prod-list cl'})
+nuber = html.find('div', {'class':'search-user'}).find('li', {'class':'top_phone'})
+print('______________________________________________________________________')
+print('НАЗВАНИЕ:                 НЕТ В НАЛИЧИИ:                         ЦЕНА:')
+print('______________________________________________________________________')
+sleep(1)
+for i in prods:
+    prod = i.findAll('li', {'class':'prod-item'})
+    for a in prod:
+        name = a.find('h3')
+        price = a.find('p', {'class':'price'})
+        sleep(1)
+        print(name.text[9:])
+        print(price.text[9:])
+
+print('НОМЕР ПО КОТОРОМУ МОЖНО УЗНАТЬ ДОП. ИНФУ -->' + nuber.text)
+print()
+print("КОНЕЦ ПРОГРАММЫ")
